@@ -1,0 +1,101 @@
+﻿<Window x:Class="PdfExporting.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PdfExporting"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+        <syncfusion:SfDataGrid x:Name="sfDataGrid" 
+                               Grid.Column="0" Grid.Row="0"
+                               ItemsSource="{Binding Orders}" 
+                               AutoGenerateColumns="True"
+                               AutoExpandGroups="True"
+                               SelectionMode="Multiple"
+                               SelectionChanged="OnDataGridSelectionChanged"
+                               ColumnSizer="Star" >
+        <!--<syncfusion:SfDataGrid.GroupColumnDescriptions>
+            <syncfusion:GroupColumnDescription ColumnName="OrderID" />
+        </syncfusion:SfDataGrid.GroupColumnDescriptions>-->
+        </syncfusion:SfDataGrid> 
+        <!--
+            <syncfusion:SfDataGrid.StackedHeaderRows>
+                <syncfusion:StackedHeaderRow>
+                    <syncfusion:StackedHeaderRow.StackedColumns>
+                        <syncfusion:StackedColumn ChildColumns="OrderID,CustomerName" HeaderText="Order Details" />
+                        <syncfusion:StackedColumn ChildColumns="Quantity,Price" HeaderText="Product Details" />
+                    </syncfusion:StackedHeaderRow.StackedColumns>
+                </syncfusion:StackedHeaderRow>
+            </syncfusion:SfDataGrid.StackedHeaderRows>
+        </syncfusion:SfDataGrid>-->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0">
+            <StackPanel>
+                <TextBlock Margin="16,5,5,5" Text="Export DataGrid to PDF" 
+                                               FontWeight="Bold" />
+                
+                <CheckBox   x:Name="ExportHeaders"
+                                            Margin="16,5,5,5"
+                                            Content="Add PDF Header"
+                                            IsChecked="False" />
+
+                <CheckBox   x:Name="ExportGroups"
+                            Margin="16,5,5,5"
+                            Content="Export Groups"
+                            IsChecked="True" />
+                <CheckBox   x:Name="CellStyle"
+                                            Margin="16,5,5,5"
+                                            Content="Style cells based on CellType"
+                                            IsChecked="False" />
+                <TextBlock Margin="16,5,5,5" Text="Columns" FontWeight="Bold" />
+                <CheckBox   x:Name="OrderIDColumn"
+                                            Margin="16,5,5,5"
+                                            IsChecked="True"
+                                            Content="Order ID" />
+                <CheckBox x:Name="CustomerNameColumn"
+                                            Margin="16,5,5,5"
+                                            IsChecked="True"
+                                            Content="Customer Name" />
+                <CheckBox   x:Name="QuantityColumn"
+                                            Margin="16,5,5,5"
+                                            IsChecked="True"
+                                            Content="Quantity" />
+                <CheckBox   x:Name="PriceColumn"
+                                            Margin="16,5,5,5"
+                                            IsChecked="True"
+                                            Content="Price" />
+                <Button x:Name="exportDataGrid"
+                        HorizontalContentAlignment="Center"
+                        Margin="16,5,5,5"
+                        Width="180"
+                        Content="Export To PDF" Click="OnExportToPDFClick" />
+                <!--<NavigationViewItemSeparator Margin="0,10,0,10"  />-->
+                <TextBlock Margin="16,5,5,5"
+                           Text="Export Selected Rows to Excel"
+                           FontWeight="Bold" />
+                <Button x:Name="exportSelectedItems"
+                        IsEnabled="False"
+                        HorizontalContentAlignment="Center"
+                        Margin="16,5,5,5" Width="180"
+                        Content="Export Selected Rows" Click="OnExportSelectedItemsClick" />
+                <TextBlock Margin="16,5,5,5" Width="250"
+                           x:Name="NoteTextBlock" 
+                           HorizontalAlignment="Left"
+                           Text="Note: This button will be enabled only when the DataGrid rows are selected." 
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
